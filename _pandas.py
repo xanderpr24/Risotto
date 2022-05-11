@@ -15,9 +15,10 @@ def loadData(fileName): #set up and return Python data from csv/txt extension
 
 def displayCrossTab(df, margins): #returns a two-way contingency table from a given Pandas dataframe
     if margins:
-        crosstab = pd.crosstab(df.Symptoms, df.Gender, margins=True, margins_name = 'Total')
+        #change df.[Row], df.[Column] for different data
+        crosstab = pd.crosstab(df.Rating, df.Grade, margins=True, margins_name = 'Total')
     else:
-        crosstab = pd.crosstab(df.Symptoms, df.Gender)
+        crosstab = pd.crosstab(df.Rating, df.Grade)
 
     return crosstab
 
@@ -57,13 +58,16 @@ def main():
     columnsRows = [[], []]
 
     var1, var2 = loadData('csv/movies.csv')
+
+    #change for different data
     data = {
-        'Symptoms' : var1,
-        'Gender' : var2
+        'Rating' : var1,
+        'Grade' : var2
     }
 
-    df = pd.DataFrame(data)
+    df = pd.DataFrame(data) #initialize Pandas dataframe based on data from external file
 
+    #initialize columns and rows for _matplotlib
     for i, item in enumerate(data):
         for value in data[item]:
             if not value in columnsRows[i]:
