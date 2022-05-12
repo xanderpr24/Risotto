@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import _pandas
+import random
 
 def setupPlt(rows, columns, tickPos, catsPos, cats, barWidth, colors): #label plot (axes/title) and add legend and x-scale
 
@@ -50,7 +51,24 @@ def loadFromPandas(barWidth): #get data from pandas and initialize for different
     return cats, catsPos, cellValues, rows, columns, tickPos
 
 
+def genData(var1, var2): #generate random data for specified possible outcomes for each of two variables
+
+    file = open('csv/movies.csv', 'w')
+
+    for i in range(150):
+        phrase = f'{random.choice(var1)},{random.choice(var2)}\n' #write random data (e.g. yes,male/no,female) to the file
+        file.write(phrase)
+
+    file.close()
+
+
+
 def main():
+
+    genData(
+        ['1-2', '3-4', '5-6', '7-8', '9-10'],
+        ['9th', '10th', '11th', '12th']
+    )
 
     barWidth = 0.15
     colors = {
