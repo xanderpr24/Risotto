@@ -73,4 +73,4 @@ def main():
             if not value in columnsRows[i]:
                 columnsRows[i].append(value)
 
-    return displayCrossTab(df, False).values, columnsRows[0], columnsRows[1]
+    return df, columnsRows[0], columnsRows[1]

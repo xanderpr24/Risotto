@@ -21,6 +21,8 @@ def setupPlt(rows, columns, tickPos, catsPos, cats, barWidth, colors): #label pl
 def loadFromPandas(barWidth): #get data from pandas and initialize for different format
     cats, catsPos = [], []
     cellValues, rows, columns = _pandas.main()
+    cellValues = _pandas.displayCrossTab(cellValues, False).values
+
     cat1XPos = [i for i, _ in enumerate(columns)] #0, 1, 2, ..., len(columns)-1
 
     tickPos = [val + (barWidth * (len(rows)-1)/2) for val in cat1XPos] #center tick for multiple bars
@@ -65,11 +67,6 @@ def genData(var1, var2): #generate random data for specified possible outcomes f
 
 def main():
 
-    genData(
-        ['1-2', '3-4', '5-6', '7-8', '9-10'],
-        ['9th', '10th', '11th', '12th']
-    )
-
     barWidth = 0.15
     colors = {
         0 : 'r',
@@ -80,6 +77,11 @@ def main():
     }
     cats, catsPos, cellValues, rows, columns, tickPos = loadFromPandas(barWidth)
     setupPlt(rows, columns, tickPos, catsPos, cats, barWidth, colors)
-    plt.show()
 
-main()
+    #generate random data for grades 9-12 and ratings 1-10
+    genData(
+        ['1-2', '3-4', '5-6', '7-8', '9-10'],
+        ['9th', '10th', '11th', '12th']
+    )
+
+    #plt.show()
