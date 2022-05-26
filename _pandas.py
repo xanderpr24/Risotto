@@ -16,7 +16,7 @@ def loadData(fileName): #set up and return Python data from csv/txt extension
 def displayCrossTab(df, margins): #returns a two-way contingency table from a given Pandas dataframe
     if margins:
         #change df.[Row], df.[Column] for different data
-        crosstab = pd.crosstab(df.Rating, df.Grade, margins=True, margins_name = 'Total')
+        crosstab = pd.crosstab(df.Rating, df.Grade, margins=True, margins_name='Total')
     else:
         crosstab = pd.crosstab(df.Rating, df.Grade)
 
@@ -53,11 +53,11 @@ def getExpectedCounts(df): #return chi2 expected counts values for each cell in 
 
 
 
-def main():
+def main(fileName):
 
     columnsRows = [[], []]
 
-    var1, var2 = loadData('csv/movies.csv')
+    var1, var2 = loadData(fileName)
 
     #change for different data
     data = {

@@ -1,71 +1,84 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
-import _matplotlib0
-import _math
+import os
+import sys
+
+sys.path.insert(0, 'funs')
+sys.path.insert(0, 'graphs')
+import funs
+import _pandas
+import bar_freq
+import segmented_rf
+import unsegmented_rf
 
 
+for i in ('bar-freq', 'segmented-rf', 'unsegmented-rf'):
+    if os.path.exists(f'images/{i}.png'):
+        os.remove(f'images/{i}.png')
+
+
+bg_color = '#fdf7e7'
+fg_color = '#f66'
 root = tk.Tk()
+root.resizable(False, False)
 root.title('Risotto')
-window_width = 640
-window_height = 480
+root.configure(bg=bg_color)
+root.rowconfigure(1, weight=1)
+
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-center_x = int(screen_width/2 - window_width / 2)
-center_y = int(screen_height/2 - window_height / 2)
-root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
-root.iconbitmap('chisq.ico')
+x = (screen_width/2) - 225
+y = (screen_height/2) - 75
 
-pValue = tk.StringVar()
+root.geometry('%dx%d+%d+%d' % (450, 150, x, y))
 
-def submitFilePath(path):
-    found = False
+
+path = tk.StringVar()
+
+def bar_graph_clicked(path):
     try:
-        file = open(path, 'r')
-        found = True
-    except FileNotFoundError:
-        showinfo(
-            message=f'No such file or directory "{path}"'
-        )
+        bar_freq.main(path)
+        funs.showImage(r'images\bar-freq.png', 'Frequency Graph')
+    except IOError:
+        showinfo(message=f'No such file or directory \'{path}\'')
 
-    if found:
-        pValue = str(_math.main())
-        print(pValue)
 
-def generateRandomData():
-    _matplotlib0.genData()
+def segmented_rf_clicked(path):
+    try:
+        segmented_rf.main(path)
+        funs.showImage(r'images\segmented-rf.png', 'Segmented Relative Frequency')
+    except IOError:
+        showinfo(message=f'No such file or directory \'{path}\'')
 
-def enableDisableSubmit(*args):
-    pathStatus = filePath.get()
-    if pathStatus:
-        submit.config(state='normal')
-    else:
-        submit.config(state='disabled')
+def unsegmented_rf_clicked(path):
+    try:
+        unsegmented_rf.main(path)
+        funs.showImage(r'images\unsegmented-rf.png', 'Relative Frequency Graph')
+    except IOError:
+        showinfo(message=f'No such file or directory \'{path}\'')
 
-def showPValue():
-    pValueText = pValue.get()
-    thing = ttk.Label(main, text=pValueText)
-    thing.pack()
 
-filePath = tk.StringVar()
-filePath.trace('w', enableDisableSubmit)
+frame = tk.Frame(root, bg=bg_color, width=450)
+frame.pack(expand=True)
 
-main = ttk.Frame(root)
-main.pack()
+style = ('Verdana', 12)
 
-fileLabel = ttk.Label(main, text='Enter file path:')
-fileLabel.pack()
 
-fileEntry = ttk.Entry(main, textvariable=filePath)
-fileEntry.pack()
+path_label = tk.Label(frame, text="File path:", font=style, bg=bg_color, fg=fg_color)
+path_label.grid(row=0, column=0)
 
-submit = ttk.Button(main, text='Submit', command=lambda: submitFilePath(filePath.get()))
-submit.pack(fill='x', expand=True)
+path_entry = ttk.Entry(frame, textvariable=path)
+path_entry.grid(row=0, column=1, columnspan=3)
+path_entry.focus()
 
-showPValue = ttk.Button(main, text='Show Data', command=showPValue)
-showPValue.pack()
+bar_freq_button = tk.Button(frame, text="Frequency\nBar Graph", command=lambda: bar_graph_clicked(path.get()), font=('Verdana', 10), bg=fg_color, fg=bg_color)
+bar_freq_button.grid(row=1, column=0, padx=2, pady=5)
 
-pLabel = ttk.Label(main, text=pValue.get())
-pLabel.pack()
+segmented_rf_button = tk.Button(frame, text="Segmented\nRF", command=lambda: segmented_rf_clicked(path.get()), font=('Verdana', 10), bg=fg_color, fg=bg_color)
+segmented_rf_button.grid(row=1, column=1, padx=2, pady=5)
+
+unsegmented_rf_button = tk.Button(frame, text='Unsegmented\nRF', command=lambda: unsegmented_rf_clicked(path.get()), font=('Verdana', 10), bg=fg_color, fg=bg_color)
+unsegmented_rf_button.grid(row=1, column=2, padx=2, pady=5)
 
 root.mainloop()
