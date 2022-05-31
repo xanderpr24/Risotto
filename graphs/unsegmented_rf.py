@@ -48,13 +48,13 @@ def loadData(fileName):
 
 
 def getGradesColors(columns, rows, observeds):
-    colors = {
-        '1-2'   : 'red',
-        '3-4'   : 'orange',
-        '5-6'   : 'gold',
-        '7-8'   : 'forestgreen',
-        '9-10'  : 'blue'
-    }
+    colors = {}
+    for row in rows:
+        colors[row] = {}
+        colorsList = ['red', 'orange', 'gold', 'forestgreen', 'blue']
+
+    for it, row in enumerate(rows):
+        colors[row] = colorsList[it]
 
     gradesColors = {}
     for grade in columns:
@@ -67,12 +67,24 @@ def getGradesColors(columns, rows, observeds):
     return gradesColors
 
 
-def setupPlt(longestBar, rows, tickPos, columns):
+def setupPlt(highestBar, longestBar, rows, tickPos, columns):
     plt.title('School Rating by Grade')
     plt.legend(longestBar, rows, loc='upper center')
     plt.xlabel('Grade')
     plt.ylabel('Relative Frequency')
     plt.xticks(tickPos, columns)
+
+    if highestBar >= 60:
+        step = 4
+    elif highestBar >= 20:
+        step = 2
+    else:
+        step = 1
+    if not highestBar % step == 0:
+        highestBar += step - highestBar % step
+
+    plt.yticks([i for i in range(0, highestBar, step)])
+
     plt.yticks([i * 10 for i in range(7)])
 
 
@@ -104,6 +116,7 @@ def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
     bars = []
     tickPos = []
 
+    barsHeights = []
     for counter, grade in enumerate(observeds):
 
         bar = plt.bar(
@@ -117,12 +130,18 @@ def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
         bars.append(bar.patches)
         tickPos.append(2*counter + (((len(gradesHeightsSorted[grade]) - 1) * barWidth) / 2))
 
+
+        for height in gradesHeightsSorted[grade]:
+            barsHeights.append(int(height))
+
+    highestBar = max(barsHeights) + 1
+
     lengths = []
     for bar in bars:
         lengths.append(len(bar))
     longestBar = bars[lengths.index(max(lengths))]
 
-    return bars, tickPos, longestBar
+    return bars, tickPos, longestBar, highestBar
 
 
 def main(fileName):
@@ -134,8 +153,8 @@ def main(fileName):
     rowsTotals, columnsTotals = getRowsColumnsTotals(df)
     gradesColors = getGradesColors(columns, rows, observeds)
     gradesHeightsSorted = getHeightsSorted(observeds, rows, columnsTotals)
-    bars, tickPos, longestBar = plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted)
-    setupPlt(longestBar, rows, tickPos, columns)
+    bars, tickPos, longestBar, highestBar = plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted)
+    setupPlt(highestBar, longestBar, rows, tickPos, columns)
 
     path = r'images\unsegmented-rf.png'
     if os.path.exists(path):

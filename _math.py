@@ -1,8 +1,8 @@
 import _pandas
 import json
 
-def loadFromPandas():
-    df, rows, columns = _pandas.main()
+def loadFromPandas(fileName):
+    df, rows, columns = _pandas.main(fileName)
     expectedCounts = _pandas.getExpectedCounts(df)
     dOF = (len(rows) - 1) * (len(columns) - 1)
 
@@ -65,9 +65,9 @@ def getP(jsonFile, df, statistic):
 
 
 def main():
-    data, rows, columns, expectedCounts, df = loadFromPandas()
+    data, rows, columns, expectedCounts, df = loadFromPandas('csv/ratings.csv')
     observedsExpecteds = getOE(data, expectedCounts)
     statistic = getStatistic(observedsExpecteds)
 
-    pValue = getP('JSON/chi2-table0.json', df, statistic)
+    pValue = getP('JSON/chi2-table.json', df, statistic)
     return pValue

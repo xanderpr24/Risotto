@@ -61,8 +61,8 @@ def main(fileName):
 
     #change for different data
     data = {
-        'Rating' : var1,
-        'Grade' : var2
+        'Class' : var1,
+        'Rating' : var2
     }
 
     df = pd.DataFrame(data) #initialize Pandas dataframe based on data from external file

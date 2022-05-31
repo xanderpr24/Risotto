@@ -1,4 +1,3 @@
-# importing packages
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,7 +8,7 @@ import _math
 
 def loadData(fileName):
     df, rows, columns = _pandas.main(fileName)
-    rows.sort()
+    #rows.sort()
     expectedCounts = _pandas.getExpectedCounts(df)
     observedsExpecteds = _math.getOE(df, expectedCounts)
 
@@ -26,13 +25,14 @@ def loadData(fileName):
 
 
 def getGradesColors(columns, rows, observeds):
-    colors = {
-        '1-2'   : 'red',
-        '3-4'   : 'orange',
-        '5-6'   : 'gold',
-        '7-8'   : 'forestgreen',
-        '9-10'  : 'blue'
-    }
+
+    colors = {}
+    for row in rows:
+        colors[row] = {}
+        colorsList = ['red', 'orange', 'gold', 'forestgreen', 'blue']
+
+    for it, row in enumerate(rows):
+        colors[row] = colorsList[it]
     gradesColors = {}
     for grade in columns:
         gradeColors = []
@@ -44,13 +44,22 @@ def getGradesColors(columns, rows, observeds):
     return gradesColors
 
 
-def setupPlt(longestBar, rows, tickPos, columns):
+def setupPlt(highestBar, longestBar, rows, tickPos, columns):
     plt.title('School Rating by Grade')
     plt.legend(longestBar, rows, loc='upper center')
     plt.xlabel('Grade')
     plt.ylabel('Frequency')
     plt.xticks(tickPos, columns)
-    plt.yticks([i * 2 for i in range(11)])
+
+    if highestBar >= 60:
+        step = 4
+    elif highestBar >= 20:
+        step = 2
+    else:
+        step = 1
+    if not highestBar % step == 0:
+        highestBar += step - highestBar % step
+    plt.yticks([i for i in range(0, highestBar, step)])
 
 
 def getHeightsSorted(observeds, rows):
@@ -73,11 +82,13 @@ def getHeightsSorted(observeds, rows):
     return gradesHeightsSorted
 
 
-def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
+def plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted):
     bars = []
     tickPos = []
 
+    barsHeights = []
     for counter, grade in enumerate(observeds):
+
 
         bar = plt.bar(
             2*counter + np.array([barWidth * i for i in range(len(gradesHeightsSorted[grade]))]),
@@ -85,17 +96,22 @@ def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
             barWidth,
             color = gradesColors[grade],
             ec = 'k',
-            label=rows[counter]
+            label=columns[counter]
         )
         bars.append(bar.patches)
         tickPos.append(2*counter + (((len(gradesHeightsSorted[grade]) - 1) * barWidth) / 2))
+
+        for height in gradesHeightsSorted[grade]:
+            barsHeights.append(height)
+
+    highestBar = max(barsHeights) + 1
 
     lengths = []
     for bar in bars:
         lengths.append(len(bar))
     longestBar = bars[lengths.index(max(lengths))]
 
-    return bars, tickPos, longestBar
+    return bars, tickPos, longestBar, highestBar
 
 
 def main(fileName):
@@ -106,8 +122,8 @@ def main(fileName):
     df, rows, columns, expectedCounts, observeds = loadData(fileName)
     gradesColors = getGradesColors(columns, rows, observeds)
     gradesHeightsSorted = getHeightsSorted(observeds, rows)
-    bars, tickPos, longestBar = plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted)
-    setupPlt(longestBar, rows, tickPos, columns)
+    bars, tickPos, longestBar, highestBar = plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted)
+    setupPlt(highestBar, longestBar, rows, tickPos, columns)
 
     path = r'images\bar-freq.png'
     if os.path.exists(path):

@@ -2,6 +2,7 @@ Teacher     Lines
 -------   -------
 Bogats       1-18
 Bille       19-34
+Harshman    35-
 Herbst      35-50
 Owens       51-66
 Green       67-84

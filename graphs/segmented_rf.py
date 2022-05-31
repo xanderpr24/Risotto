@@ -48,13 +48,13 @@ def loadData(fileName):
 
 
 def getGradesColors(columns, rows, observeds):
-    colors = {
-        '1-2'   : 'red',
-        '3-4'   : 'orange',
-        '5-6'   : 'gold',
-        '7-8'   : 'forestgreen',
-        '9-10'  : 'blue'
-    }
+    colors = {}
+    for row in rows:
+        colors[row] = {}
+        colorsList = ['red', 'orange', 'gold', 'forestgreen', 'blue']
+
+    for it, row in enumerate(rows):
+        colors[row] = colorsList[it]
 
     gradesColors = {}
     for grade in columns:
@@ -73,6 +73,7 @@ def setupPlt(longestBar, bars, rows, columns):
     plt.xlabel('Grade')
     plt.ylabel('Relative Frequency')
     plt.xticks([i for i in range(len(columns))], columns)
+
     plt.yticks([i * 10 for i in range(12)])
 
 
@@ -102,7 +103,7 @@ def getHeightsSorted(observeds, rows, columnsTotals):
     return gradesHeightsSorted
 
 
-def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
+def plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted):
     bars = []
     for counter, grade in enumerate(observeds):
         heightsSorted = gradesHeightsSorted[grade]
@@ -128,7 +129,7 @@ def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
             bottoms,
             color = colors.values(),
             ec = 'k',
-            label=rows[counter]
+            label=columns[counter]
         )
         for i in range(len(bottoms)):
             if heightsSorted[i] != 0:
@@ -152,7 +153,7 @@ def main(fileName):
     rowsTotals, columnsTotals = getRowsColumnsTotals(df)
     gradesColors = getGradesColors(columns, rows, observeds)
     gradesHeightsSorted = getHeightsSorted(observeds, rows, columnsTotals)
-    bars, longestBar = plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted)
+    bars, longestBar = plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted)
     setupPlt(longestBar, bars, rows, columns)
 
     path = r'images\segmented-rf.png'
