@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import sys
+sys.path.insert(0, 'folder')
 import _pandas
 import _math
 
@@ -67,10 +69,11 @@ def getGradesColors(columns, rows, observeds):
     return gradesColors
 
 
-def setupPlt(highestBar, longestBar, rows, tickPos, columns):
-    plt.title('School Rating by Grade')
-    plt.legend(longestBar, rows, loc='upper center')
-    plt.xlabel('Grade')
+def setupPlt(legend, x_label, title, highestBar, longestBar, rows, tickPos, columns):
+    plt.title(title)
+    if legend:
+        plt.legend(longestBar, rows, loc='upper right')
+    plt.xlabel(x_label)
     plt.ylabel('Relative Frequency')
     plt.xticks(tickPos, columns)
 
@@ -144,7 +147,7 @@ def plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted):
     return bars, tickPos, longestBar, highestBar
 
 
-def main(fileName):
+def main(fileName, title, x_label, legend):
 
     plt.figure().clear()
 
@@ -154,9 +157,9 @@ def main(fileName):
     gradesColors = getGradesColors(columns, rows, observeds)
     gradesHeightsSorted = getHeightsSorted(observeds, rows, columnsTotals)
     bars, tickPos, longestBar, highestBar = plotBars(observeds, rows, barWidth, gradesColors, gradesHeightsSorted)
-    setupPlt(highestBar, longestBar, rows, tickPos, columns)
+    setupPlt(legend, x_label, title, highestBar, longestBar, rows, tickPos, columns)
 
-    path = r'images\unsegmented-rf.png'
+    path = r'static\unsegmented-rf.png'
     if os.path.exists(path):
         os.remove(path)
     plt.savefig(fname=path)

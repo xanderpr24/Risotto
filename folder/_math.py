@@ -30,7 +30,10 @@ def getOE(df, expectedCounts):
 
 def getStatistic(observedsExpecteds):
     unSums = []
+
+    contributions = {}
     for id in observedsExpecteds:
+        contributions[id] = (round(observedsExpecteds[id][0] - observedsExpecteds[id][1], 1))
         unSums.append(
             ((observedsExpecteds[id][0] - observedsExpecteds[id][1]) ** 2) / observedsExpecteds[id][1]
         )
@@ -64,10 +67,10 @@ def getP(jsonFile, df, statistic):
         return tailProbs[index], tailProbs[index]
 
 
-def main():
-    data, rows, columns, expectedCounts, df = loadFromPandas('csv/ratings.csv')
+def main(fileName):
+    data, rows, columns, expectedCounts, df = loadFromPandas(fileName)
     observedsExpecteds = getOE(data, expectedCounts)
     statistic = getStatistic(observedsExpecteds)
 
-    pValue = getP('JSON/chi2-table.json', df, statistic)
+    pValue = getP('JSON/chi2-table0.json', df, statistic)
     return pValue

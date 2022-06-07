@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 900;
+  background-color: hsl(146, 75%, 90.5%);
+  color: hsl(146, 25%, 40.5%);
+  text-align: center;
+}
+
+#submit {
+  margin-top: 30px;
+}
+
+#top {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#top hr {
+  width: 25%;
+  margin: auto;
+  border: 2px solid hsl(146, 75%, 85.5%);
+}
+
+#graphs {
+  margin-top: 200px;
+}
+
+#make-graph {
+  width: 25%;
+  border: 2px solid hsl(146, 75%, 55.5%);
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: hsl(146, 75%, 95.5%);
+  height: 220px;
+}
+
+.make-graph {
+  background-color: hsl(146, 75%, 95.5%);
+}
+
+.make-graph hr {
+  width: 50%;
+  margin: auto;
+  border: 1px solid hsl(146, 75%, 70.5%);
+}
+
+input {
+  margin-top: 15px;
+  width: 50%;
+  background-color: inherit;
+  border: 0px;
+  color: inherit;
+  text-align: left;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 15px;
+}
+
+input:focus {
+  border: 0px;
+}
+
+input::placeholder {
+  color: hsla(146, 60%, 65.5%, 0.80);
+}
+
+input[type='checkbox'] {
+  width: 15px;
+  height: auto;
+}
+
+.make-graph label {
+  background-color: inherit;
+  color: hsl(146, 60%, 60.5%);
+}
+
+/* P!nk - Try */
+
+button {
+  border: 2px solid hsl(146, 75%, 55.5%);
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  background-color: hsl(146, 75%, 85.5%);
+}
+
+button:disabled {
+  color: hsl(146, 20%, 50%);
+  background-color: hsl(146, 20%, 80%);
+  cursor: not-allowed;
+}
+
+button:enabled {
+  cursor: pointer;
+}
+
+button:enabled:hover {
+  background-color: hsl(146, 75%, 89.5%);
+  color: hsl(146, 25%, 45.5%);
+}
+
+figure {
+  display: inline-block;
+  width: 25vw;
+  margin: 0 25px;
+}
+
+img {
+  width: inherit;
+}

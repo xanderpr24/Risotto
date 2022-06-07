@@ -1,7 +1,10 @@
 # Risotto
-A WIP lightweight Python module for statistical analysis
+A WIP lightweight Python package for statistical analysis
+By Alexander Melby for HCP Final Project
 
 ## Features
+- HTML GUI
+
 - CSV/TXT reading
 
 - Chi Square Test For Independence (math functions/data visualization)
@@ -14,3 +17,4 @@ A WIP lightweight Python module for statistical analysis
 - Matplotlib `pip install matplotlib` https://matplotlib.org/
 - OpenCV `pip install opencv-python` https://opencv.org/
 - Tkinter `pip install tk` https://www.pythontutorial.net/tkinter/ (unofficial site)
+- Flask `pip install flask` https://flask.palletsprojects.com/en/2.1.x/

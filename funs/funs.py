@@ -11,7 +11,6 @@ def showImage(fileName, title):
         cv2.imshow(title, img)
         cv2.waitKey(0)
         keyPressed = True
-        #sys.exit() # to exit from all the processes
 
     try:
         cv2.destroyWindow(title) # destroy all windows

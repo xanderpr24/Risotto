@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Risotto</title>
+  <link href='../static/chisq.ico' rel='icon'>
+  <link href='../static/risotto.css' rel='stylesheet'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id='top'>
+    <h1>Risotto</h1>
+    <hr>
+    <h2>Statistical Analysis</h2>
+  </div>
+
+  <div id='make-graph'>
+    <form method='POST' action='templates/loading' id='graph-form' class='make-graph'>
+      <input id='path' type='text' placeholder='file path' name='path'>
+      <hr>
+      <input id='title' type='text' placeholder='title' name='title'>
+      <hr>
+      <input id='x-label' type='text' placeholder='x-label' name='x-label'>
+      <hr>
+      <input type='checkbox' id='legend' name='legend'>
+      <label for='legend'>Show legend</label>
+    </form>
+    <button form='graph-form' id='submit' type='submit' disabled='disabled' onclick='window.open("templates/loading", "_self")'>Submit</button>
+    <script src='../static/risotto.js'></script>
+  </div>
+</body>
+
+</html>

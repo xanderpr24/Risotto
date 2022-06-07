@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import sys
+sys.path.insert(0, 'folder')
 import _pandas
 import _math
 
@@ -67,10 +69,11 @@ def getGradesColors(columns, rows, observeds):
     return gradesColors
 
 
-def setupPlt(longestBar, bars, rows, columns):
-    plt.title('School Rating by Grade')
-    plt.legend(longestBar, rows, loc='upper center')
-    plt.xlabel('Grade')
+def setupPlt(legend, x_label, title, longestBar, bars, rows, columns):
+    plt.title(title)
+    if legend:
+        plt.legend(longestBar, rows, loc='upper center')
+    plt.xlabel(x_label)
     plt.ylabel('Relative Frequency')
     plt.xticks([i for i in range(len(columns))], columns)
 
@@ -144,7 +147,7 @@ def plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted):
     return bars, longestBar
 
 
-def main(fileName):
+def main(fileName, title, x_label, legend):
 
     plt.figure().clear()
 
@@ -154,9 +157,9 @@ def main(fileName):
     gradesColors = getGradesColors(columns, rows, observeds)
     gradesHeightsSorted = getHeightsSorted(observeds, rows, columnsTotals)
     bars, longestBar = plotBars(observeds, columns, barWidth, gradesColors, gradesHeightsSorted)
-    setupPlt(longestBar, bars, rows, columns)
+    setupPlt(legend, x_label, title, longestBar, bars, rows, columns)
 
-    path = r'images\segmented-rf.png'
+    path = r'static\segmented-rf.png'
     if os.path.exists(path):
         os.remove(path)
     plt.savefig(fname=path)

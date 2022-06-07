@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Results</title>
+  <link rel='stylesheet' href='../static/risotto.css'>
+  <link rel='icon' href='../static/chisq.ico'>
+  <style>
+
+    figure {
+      margin: 1vw;
+    }
+
+    img {
+      width: 25vw;
+    }
+
+    .download {
+      width: auto;
+      height: auto;
+      padding: 2px;
+      font-size: 18px;
+      display: block;
+      margin: 10px auto;
+    }
+    a {
+      text-decoration: none;
+      background-color: inherit;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='graphs'>
+  <figure>
+    <img src='../static/bar-freq.png'>
+    <figcaption>Frequency Bar Graph</figcaption>
+    <button class='download'>
+      <a href='../static/bar-freq.png' download>Download<a>
+    </button>
+  </figure>
+  <figure>
+    <img src='../static/unsegmented-rf.png'>
+    <figcaption>Relative Frequency Graph</<figcaption>
+    <button class='download'>
+      <a href='../static/unsegmented-rf.png' download>Download<a>
+    </button>
+  </figure>
+  <figure>
+    <img src='../static/segmented-rf.png'>
+    <figcaption>Segmented RF Graph</figcaption>
+    <button class='download'>
+      <a href='../static/segmented-rf.png' download>Download<a>
+    </button>
+  </figure>
+  </div>
+
+  <button style='margin-top: 50px' onclick="window.open(href='/', '_self')">Back</button>
+</body>
+
+</html>
